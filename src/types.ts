@@ -1,0 +1,371 @@
+export type ClockFont = 'outfit' | 'inter' | 'mono' | 'school' | 'serif' | 'sans';
+export type ClockWeight = '300' | '400' | '600' | '800';
+export type BgType = 'color' | 'gradient' | 'image' | 'video' | 'animated' | 'web';
+export type ThemeMode = 'dark' | 'light';
+export type ColorScheme = 'light' | 'dark' | 'system';
+export type DateFormat =
+  | 'DD.MM.YYYY'
+  | 'MM/DD/YYYY'
+  | 'YYYY-MM-DD'
+  | 'D. MMMM YYYY'
+  | 'D. MMM YYYY'
+  | 'DD.MM.YY'
+  | 'custom';
+export type DateStyle = 'minimal' | 'glass-pill' | 'bordered';
+export type DateCase = 'uppercase' | 'normal' | 'capitalize';
+export type DateTracking = 'normal' | 'wide' | 'wider';
+export type DateWeekdayFormat = 'long' | 'short' | 'none';
+export type ColonAnimation = 'blink' | 'pulse' | 'glow' | 'bounce' | 'static';
+export type DigitTransition = 'flip' | 'slide' | 'slide-fade' | 'fade' | 'crossfade' | 'none';
+
+export type LivelyTargetFps = 15 | 30 | 60 | 120;
+export type LivelyInteractionType = 'attract' | 'repel' | 'ripple' | 'glow' | 'none';
+
+export interface LivelySettings {
+  isPaused: boolean; // Pause live animation completely (0 CPU)
+  targetFps: LivelyTargetFps; // 15 (Akku), 30 (Eco), 60 (Standard), 120 (Ultra)
+  pauseOnBattery: boolean; // Pause automatically when battery is low / saver mode
+
+  // Mouse & Pointer Reactivity
+  mouseInteraction: boolean; // Interactive reaction to mouse / touch cursor
+  interactionType: LivelyInteractionType; // 'attract' | 'repel' | 'ripple' | 'glow' | 'none'
+  interactionRadius: number; // 40 to 300 px (default 140)
+  interactionStrength: number; // 0.2 to 2.5 (default 1.0)
+
+  // 3D Parallax Tilt (Lively 3D Perspective)
+  enableParallax: boolean; // 3D mouse parallax tilt
+  parallaxStrength: number; // 4 to 35 px (default 16)
+
+  // Visual Customizer Filters
+  hueShift: number; // 0 to 360 deg (default 0)
+  saturation: number; // 0 to 200 % (default 100)
+  brightness: number; // 50 to 150 % (default 100)
+  contrast: number; // 50 to 150 % (default 100)
+  bloomIntensity: number; // 0 to 100 % (default 0)
+
+  // Audio Reactivity
+  audioReactive: boolean; // React to music / sound pulses
+  audioSensitivity: number; // 0.2 to 2.0 (default 1.0)
+}
+
+export interface LivelyCustomWallpaper {
+  id: string;
+  title: string;
+  type: 'video' | 'web' | 'animated';
+  url: string; // Direct file URL, object URL, or web link
+  thumbnailUrl?: string;
+  author?: string;
+  createdAt: number;
+  videoSpeed?: number;
+  videoMuted?: boolean;
+}
+
+export type EntranceAnimationType =
+  | 'slide-up'
+  | 'slide-down'
+  | 'fade-in'
+  | 'rotate'
+  | 'zoom-in'
+  | 'flip';
+
+export type ParticleEffect = 'none' | 'snow' | 'dust' | 'stars' | 'rain' | 'bubbles' | 'fireflies';
+
+export type AnimatedBgId =
+  | 'aurora'
+  | 'synthwave'
+  | 'matrix'
+  | 'nebula'
+  | 'fluid-mesh'
+  | 'ocean-abyss'
+  | 'sunset-waves'
+  | 'mystic-forest'
+  | 'cyber-hex'
+  | 'sakura'
+  | 'quantum-waves'
+  | 'cosmic-vortex'
+  | 'fire-embers'
+  | 'warp-speed';
+
+export type LiveWallpaperBlendMode =
+  | 'screen'
+  | 'overlay'
+  | 'soft-light'
+  | 'lighten'
+  | 'color-dodge'
+  | 'normal';
+
+export type SettingsTab =
+  | 'darstellung'
+  | 'uhr'
+  | 'audio'
+  | 'einstellungen'
+  | 'hilfe'
+  | 'rechtliches';
+
+export type AmbientSoundType =
+  | 'none'
+  | 'rain'
+  | 'forest'
+  | 'white_noise'
+  | 'pink_noise'
+  | 'waves'
+  | 'fireplace';
+
+export interface AmbientSoundConfig {
+  activeSound: AmbientSoundType;
+  volume: number; // 0.05 to 1.0 (default 0.4)
+  isPlaying: boolean;
+  autoPlayOnStart: boolean; // remember and resume ambient sound on app start
+}
+
+export type PomodoroPhase = 'work' | 'shortBreak' | 'longBreak';
+export type PomodoroSoundType = 'chime' | 'bell' | 'gong' | 'digital' | 'none';
+
+export interface PomodoroConfig {
+  enabled: boolean; // whether Pomodoro feature is active
+  workDuration: number; // in minutes (default 25)
+  shortBreakDuration: number; // in minutes (default 5)
+  longBreakDuration: number; // in minutes (default 15)
+  longBreakInterval: number; // work sessions before long break (default 4)
+  autoStartBreaks: boolean; // automatically start break when work session finishes
+  autoStartWork: boolean; // automatically start next work session when break finishes
+  autoZenModeDuringWork: boolean; // automatically activate Zen mode during work sessions
+  exitZenModeOnBreak: boolean; // automatically exit Zen mode when break starts
+  silenceInZenMode: boolean; // silence audio alerts and notifications when Zen mode is active
+  soundAlert: PomodoroSoundType; // alert sound type
+  soundVolume: number; // 0 to 1
+  showWidgetOnClock: boolean; // display floating pill/status on clock
+}
+
+export interface CustomGradient {
+  color1: string;
+  color2: string;
+  angle: number;
+}
+
+export interface GradientPreset {
+  id: string;
+  name: string;
+  css: string;
+  textColorHint?: string;
+}
+
+export interface AdditionalTimeZone {
+  id: string;
+  name: string;
+  timeZone: string;
+  customLabel?: string;
+  flag?: string;
+}
+
+export interface SavedWallpaperItem {
+  id: string;
+  name?: string;
+  prompt?: string;
+  createdAt: number;
+  style?: string;
+  mode?: 'create' | 'edit' | 'upload';
+  isAi?: boolean;
+  url?: string;
+  isActive?: boolean;
+}
+
+export interface CuratedTheme {
+  id: string;
+  name: string;
+  description: string;
+  clockColor: string;
+  clockAccent?: string;
+  clockFont: ClockFont;
+  clockWeight: ClockWeight;
+  bgType: BgType;
+  bgColor?: string;
+  gradientPresetId?: string;
+  gradientCss?: string;
+  customGradient?: CustomGradient;
+  accentColor: string;
+  accentGlow?: string;
+  surfaceBorder?: string;
+  themeMode?: ThemeMode;
+  previewBg: string;
+  previewTextColor: string;
+}
+
+export interface ClockSettings {
+  // === DARSTELLUNG (Designoptionen) ===
+  bgType: BgType;
+  bgColor: string;
+  gradientPresetId: string;
+  customGradient: CustomGradient;
+  bgOverlayOpacity: number; // 0 to 90 %
+  bgBlur: number; // 0 to 25 px
+  colorScheme: ColorScheme; // 'light' | 'dark' | 'system'
+  themeMode: ThemeMode; // 'dark' | 'light'
+  themeId?: string;
+
+  // Animierte Partikeleffekte im Hintergrund
+  particleEffect: ParticleEffect; // 'none' | 'snow' | 'dust' | 'stars' | 'rain' | 'bubbles'
+  particleIntensity: number; // 10 to 100 percent
+  particleColor: string; // Particle color (hex, e.g. '#ffffff')
+  particleSpeed: number; // 0.25 to 3.0 (speed multiplier, default 1.0)
+
+  // Animierte Live-Hintergründe (Canvas-Szenen & Shaders)
+  animatedBgId?: AnimatedBgId;
+  animatedBgSpeed?: number; // 0.25 to 2.5 (default 1.0)
+  animatedBgIntensity?: number; // 20 to 100 percent (default 80)
+
+  // Digital Clock Typography & Appearance
+  clockColor: string; // Digit text color
+  hoursColor?: string; // Optional custom color for hours digits
+  minutesColor?: string; // Optional custom color for minutes digits
+  secondsColor?: string; // Optional custom color for seconds digits
+  colonColor?: string; // Optional custom color for colon separators
+  accentColor: string; // Glow / badge / button accent color
+  clockFont: ClockFont;
+  clockWeight: ClockWeight;
+  typographySet?: string; // Predefined typography set ID (e.g. 'mono', 'serif', 'sans')
+  clockScale: number; // 70 to 140 percent
+  autoScaleFontSize: boolean; // Dynamically scale font size based on window/viewport to fill the view optimally
+  enableBreathingAnimation: boolean;
+  enableEntranceAnimation: boolean; // Smooth CSS entrance animation when waking screen, exiting menus, or toggling Zen mode
+  entranceAnimationType: EntranceAnimationType; // 'slide-up' | 'slide-down' | 'fade-in' | 'rotate' | 'zoom-in' | 'flip'
+  entranceWakeScreenEnabled?: boolean; // Trigger entrance animation upon screen wake or returning to window
+  entranceMenuExitEnabled?: boolean; // Trigger entrance animation when closing menus/drawers
+  entranceZenToggleEnabled?: boolean; // Trigger entrance animation when toggling Zen mode
+  enableGlow: boolean; // Ambient neon / soft backlight glow radiating from behind digits
+  glowIntensity: number; // 0 to 100 percent (color intensity)
+  glowSpread: number; // 10 to 120 px (glow spread radius radiating behind digits)
+  glowColor?: string; // Optional custom glow color (or undefined for automatic digit color)
+  digitTransition: DigitTransition; // 'flip' | 'slide' | 'slide-fade' | 'fade' | 'crossfade' | 'none'
+  digitFadeDuration: number; // 150 to 800 ms (default 340ms)
+  _digitTransitionCustomized?: boolean;
+  hasCustomImage: boolean;
+  activeWallpaperId?: string; // ID of selected wallpaper from library or preset
+  activeWallpaperUrl?: string; // Active wallpaper background image URL
+  activeWallpaperType?: 'image' | 'video'; // Media format of active wallpaper
+  activeVideoUrl?: string; // Direct MP4/WebM video URL when bgType is 'video' or active wallpaper is video
+  videoPlaybackSpeed?: number; // Playback rate (0.5 to 2.0, default 1.0)
+  videoMuted?: boolean; // Browser autoplay compliance (default true)
+  videoLoop?: boolean; // Loop video continuously (default true)
+  wallpaperEngineAutoParticles?: boolean; // Automatically activate matching atmospheric particle effect (default true)
+  wallpaperEngineAutoColors?: boolean; // Automatically apply complementary clock & accent colors (default false)
+
+  // Intelligente Live-Hintergrund Kombination (Live-Effekte als Hintergrundbild / auf Wallpapers)
+  liveWallpaperOverlayEnabled?: boolean; // Enable live animated background as dynamic overlay on background image
+  liveWallpaperOverlayId?: AnimatedBgId; // Which live effect to animate over the background image
+  liveWallpaperBlendMode?: LiveWallpaperBlendMode; // CSS mix-blend-mode for the live canvas layer
+  liveWallpaperOpacity?: number; // Opacity of the live layer (10 to 100 percent, default 75)
+  liveWallpaperSpeed?: number; // Speed for live overlay (default 1.0)
+  liveWallpaperIntensity?: number; // Intensity for live overlay (default 80)
+  liveWallpaperHarmonizeColors?: boolean; // Automatically adapt clock colors to the live effect
+
+  // Lively Wallpaper Engine (Interaktivität, 3D-Parallax, Performance-Regeln & Shader)
+  lively: LivelySettings;
+  showLivelyQuickBar?: boolean; // Ob die Schnellleiste auf dem Hauptbildschirm schweben soll (Standard: false)
+  activeWebUrl?: string; // Direct URL when bgType is 'web'
+  customLiveWallpapers?: LivelyCustomWallpaper[]; // User-imported video, web, or custom live wallpapers
+
+  // === UHR (Digitale Uhr-Funktionen) ===
+  is24Hour: boolean; // 24-hour vs 12-hour AM/PM format
+  showSeconds: boolean; // Toggle seconds display
+  showMilliseconds?: boolean; // Toggle milliseconds display (.000 to .999 ms)
+  showNanoseconds?: boolean; // Toggle nanoseconds display (.000 000 000 ns)
+  showDate: boolean; // Toggle date string
+  dateFormat: DateFormat; // 'DD.MM.YYYY' | 'MM/DD/YYYY' | 'YYYY-MM-DD' | 'D. MMMM YYYY' | 'D. MMM YYYY'
+  showDayOfWeek: boolean; // Toggle weekday name (e.g. Dienstag)
+  dateWeekdayFormat?: DateWeekdayFormat; // 'long' | 'short' | 'none'
+  dateCustomPattern?: string; // z. B. 'WWWW, TT.MM.JJJJ' oder frei kombinierbare Token
+  dateScale?: number; // 60% bis 200% (Standard: 100%)
+  dateColor?: string; // Benutzerdefinierte Datumsfarbe (Standard: Ziffernfarbe)
+  dateFont?: ClockFont | 'inherit'; // Eigene Schriftart oder wie Uhrzeit
+  dateWeight?: ClockWeight | '300' | '400' | '500' | '600' | '700' | 'inherit';
+  dateStyle?: DateStyle; // 'minimal' | 'glass-pill' | 'bordered'
+  dateCase?: DateCase; // 'uppercase' | 'normal' | 'capitalize'
+  dateTracking?: DateTracking; // 'normal' | 'wide' | 'wider'
+  showBlinkingSeparator: boolean; // Toggle blinking colons
+  colonAnimation: ColonAnimation; // 'pulse' | 'blink' | 'glow' | 'bounce' | 'static'
+  colonPulseIntensity: number; // 0.1 to 1.0 (subtlety to prominence of colon animation)
+  showCardContainer: boolean; // Material 3 surface container around digits
+  backdropBlurIntensity: number; // 0 to 40 px: granular backdrop-filter blur for clock UI elements
+  timeZone: string; // Target time zone (default 'Europe/Berlin' for Germany/Central Europe)
+
+  // Zusätzliche Zeitzonen (Weltuhr direkt unter der Hauptuhr)
+  showAdditionalTimeZones: boolean;
+  additionalTimeZones: AdditionalTimeZone[];
+  worldClockLayout?: 'rows' | 'chips'; // 'rows' = kleine, minimalistische Zeilen, 'chips' = kompakte Kacheln
+  worldClockShowSeconds?: boolean; // Sekunden in Weltzeit anzeigen
+  worldClockShowOffset?: boolean; // Zeitunterschied (+/- Std.) anzeigen
+  worldClockAutoTheme?: boolean; // Automatische Farbanpassung an Design & Zen-Modus
+
+  // === ZEN-MODUS AUTOMATISCHER ZEITPLAN ===
+  zenScheduleEnabled: boolean; // Automatischer Timer für Zen-Modus
+  zenScheduleStartTime: string; // z. B. '22:00' (10:00 PM)
+  zenScheduleEndTime: string; // z. B. '07:00' (07:00 AM)
+
+  // === TÄGLICHES ZITAT (DAILY INSPIRATIONAL QUOTE) ===
+  showDailyQuote: boolean; // Zitat-Widget unter der Uhr ein-/ausblenden
+  quoteFont: ClockFont; // Schriftart des Zitats ('serif' | 'outfit' | 'inter' | 'mono' | 'school' | 'sans')
+  quoteColor: string; // Schriftfarbe des Zitat-Texts
+  quoteAuthorColor?: string; // Optionale Schriftfarbe des Autors
+
+  // === EINSTELLUNGEN (Allgemeine Optionen) ===
+  appLanguage: 'de' | 'en';
+  soundEnabled: boolean; // Subtle second tick audio (standardmäßig deaktiviert / stumm)
+  vibrationEnabled: boolean; // Haptic feedback on mobile
+  ecoMode?: boolean; // Energiesparmodus: Reduziert CPU/GPU-Last drastisch (niedrigere Bildrate, sparsame Effekte)
+  useAtomicSync: boolean; // Use online atomic clock (NTP) instead of device clock
+  showSyncBadge: boolean; // Display sync indicator on the main screen
+  showBatteryIndicator?: boolean; // Subtle battery level indicator for mobile devices (hidden in fullscreen)
+
+  // === SCHUL-STUNDENPLAN & PAUSEN-SPERRE (HO 2) ===
+  schoolBreakGameLockEnabled: boolean; // Games only in breaks
+  schoolBreakLockMode: 'school_breaks_only' | 'strict_breaks_only' | 'always_allowed';
+  schoolSimulationMode: 'live' | 'lesson' | 'break_1' | 'break_2';
+  showSchoolBadge: boolean; // Display school timetable / break status in quick controls & clock
+  teacherOverrideActive: boolean; // Temporary teacher unlock
+
+  // === POMODORO-TIMER & ZEN-MODUS INTEGRATION ===
+  pomodoro: PomodoroConfig;
+
+  // === ATMOSPHÄRISCHE HINTERGRUND-GERÄUSCHE (AUDIO-TAB) ===
+  ambientSound: AmbientSoundConfig;
+
+  // === BILDSCHIRMSCHONER & OLED SLEEP-MODUS ===
+  screensaver: ScreensaverConfig;
+
+  // === WETTER-WIDGET & STANDORT (OPEN-METEO) ===
+  weather: WeatherSettings;
+}
+
+export type WeatherUnit = 'celsius' | 'fahrenheit';
+
+export interface WeatherManualLocation {
+  name: string;
+  country?: string;
+  admin1?: string;
+  latitude: number;
+  longitude: number;
+}
+
+export interface WeatherSettings {
+  enabled: boolean; // Wetter-Widget auf der Uhr aktiv
+  unit: WeatherUnit; // 'celsius' | 'fahrenheit'
+  autoLocation: boolean; // Automatische Standortermittlung via GPS / IP
+  manualLocation?: WeatherManualLocation; // Manuell ausgewählte Stadt
+  showDetailsOnClock: boolean; // Min/Max & Luftfeuchtigkeit direkt auf dem Clock-Pill anzeigen
+  showConditionText: boolean; // Wetterlage wie "Sonnig", "Teils bewölkt"
+  showRainProbability: boolean; // Regenwahrscheinlichkeit im Widget
+}
+
+export type ScreensaverStyle = 'minimal' | 'modern' | 'dots' | 'vertical';
+
+export interface ScreensaverConfig {
+  enabled: boolean; // Automatischer Bildschirmschoner aktiv (Standard: true)
+  timeoutMinutes: number; // Inaktivitätszeit in Minuten bis zum Schlafmodus (Standard: 5)
+  antiBurnInShift: boolean; // Sanfter Pixel-Shift / Orbiting alle 30-45s gegen OLED-Einbrennen
+  brightness: number; // Gedimmte Bildhelligkeit in % (10 - 60%, Standard 25%)
+  showDate: boolean; // Minimalistisches Datum im Schlafzustand anzeigen
+  showBattery: boolean; // Minimalistische Akkuanzeige wenn verfügbar
+  showSeconds: boolean; // Sekunden im Ruhezustand anzeigen (Standard: false)
+  displayStyle: ScreensaverStyle; // 'minimal' | 'modern' | 'dots' | 'vertical'
+}

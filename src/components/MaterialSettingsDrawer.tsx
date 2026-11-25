@@ -80,6 +80,7 @@ import { WeatherData } from '../services/weatherService';
 import { WorldClockSettingsCard } from './WorldClockSettingsCard';
 import { DateFormatSettingsCard } from './DateFormatSettingsCard';
 import { LivelySettingsCard } from './LivelySettingsCard';
+import { PomodoroController } from '../hooks/usePomodoro';
 import {
   CURATED_WALLPAPERS,
   WALLPAPER_CATEGORIES,
@@ -117,6 +118,7 @@ interface MaterialSettingsDrawerProps {
   onTestScreensaver?: () => void;
   onOpenWeatherModal?: () => void;
   weatherData?: WeatherData | null;
+  pomodoro?: PomodoroController;
 }
 
 interface NavItem {
@@ -165,14 +167,15 @@ export const MaterialSettingsDrawer: React.FC<MaterialSettingsDrawerProps> = ({
   onTestScreensaver,
   onOpenWeatherModal,
   weatherData,
+  pomodoro,
 }) => {
   const [activeTab, setActiveTab] = useState<SettingsTab>(initialTab || 'darstellung');
 
   useEffect(() => {
-    if (initialTab) {
+    if (isOpen && initialTab) {
       setActiveTab(initialTab);
     }
-  }, [initialTab]);
+  }, [isOpen, initialTab]);
   const [searchQuery, setSearchQuery] = useState('');
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
   const [saveToast, setSaveToast] = useState<string | null>(null);
@@ -412,6 +415,9 @@ export const MaterialSettingsDrawer: React.FC<MaterialSettingsDrawerProps> = ({
       { tab: 'uhr' as SettingsTab, title: 'Doppelpunkt-Pulsieren & Ticken (:)', desc: 'Subtile Animation und Intensität des Doppelpunkts im Sekundentakt (Pulsieren, Glühen, Sprung, Blinken)' },
       { tab: 'uhr' as SettingsTab, title: 'Rahmenkarte (Container)', desc: 'Gläserner Oberflächen-Hintergrund' },
       { tab: 'uhr' as SettingsTab, title: 'Glas-Unschärfe (Backdrop Blur)', desc: 'Intensität des Unschärfe-Filters (0px bis 40px) für Uhrenelemente' },
+      { tab: 'audio' as SettingsTab, title: 'Soundscape Moods (Stimmungen & Partikel-Presets)', desc: 'Vorkonfigurierte Kombinationen aus Hintergrundklang & Partikeleffekt (z. B. Stormy = Regen + dunkler Regen, Calm = Wald + langsame Sterne)' },
+      { tab: 'audio' as SettingsTab, title: 'Fokus-Timer & Klang-Planer (Pomodoro)', desc: 'Zeitgesteuerte Hintergrundklang-Sessions (z. B. Regen für 25 Minuten) mit Pausen & Signalton' },
+      { tab: 'audio' as SettingsTab, title: 'Fokus-Session-Verlauf & Produktivität (Statistik)', desc: 'Liniendiagramm der täglichen produktiven Fokuszeit, Serien & letzte Pomodoro-Sessions' },
       { tab: 'audio' as SettingsTab, title: 'Hintergrundgeräusche (Audio)', desc: 'Beruhigende Klänge: Regen, Wald & Vögel, Meeresrauschen, Kaminfeuer, weißes Rauschen, rosa Rauschen' },
       { tab: 'audio' as SettingsTab, title: 'Regengeräusche (Rain)', desc: 'Beruhigendes Sommerregen-Prasseln auf Blättern & Fenstern' },
       { tab: 'audio' as SettingsTab, title: 'Wald & Vogelgezwitscher (Forest)', desc: 'Sanfter Waldwind mit dezenten Natur-Vogelstimmen' },
@@ -2063,6 +2069,8 @@ export const MaterialSettingsDrawer: React.FC<MaterialSettingsDrawerProps> = ({
                   settings={settings}
                   onUpdateSettings={onUpdateSettings}
                   showFeedback={showFeedback}
+                  pomodoro={pomodoro}
+                  isZenMode={isZenMode}
                   onTogglePlayAmbient={(type) => {
                     if (onTogglePlayAmbient) {
                       onTogglePlayAmbient(type);

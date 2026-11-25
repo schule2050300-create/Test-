@@ -120,6 +120,7 @@ export interface AmbientSoundConfig {
 
 export type PomodoroPhase = 'work' | 'shortBreak' | 'longBreak';
 export type PomodoroSoundType = 'chime' | 'bell' | 'gong' | 'digital' | 'none';
+export type PomodoroBreakAmbientBehavior = 'pause' | 'continue' | 'switch';
 
 export interface PomodoroConfig {
   enabled: boolean; // whether Pomodoro feature is active
@@ -135,6 +136,19 @@ export interface PomodoroConfig {
   soundAlert: PomodoroSoundType; // alert sound type
   soundVolume: number; // 0 to 1
   showWidgetOnClock: boolean; // display floating pill/status on clock
+  syncAmbientWithTimer?: boolean; // automatically play/pause ambient sound with the focus timer
+  focusAmbientSound?: AmbientSoundType; // scheduled ambient sound for focus sessions
+  breakAmbientBehavior?: PomodoroBreakAmbientBehavior; // behavior of ambient sound during breaks
+  breakAmbientSound?: AmbientSoundType; // ambient sound played during break if behavior === 'switch'
+}
+
+export interface FocusSessionRecord {
+  id: string;
+  completedAt: number; // Unix timestamp in ms
+  dateKey: string; // Local YYYY-MM-DD
+  durationMinutes: number; // Productive focus minutes
+  sound: AmbientSoundType; // Ambient sound active during focus session
+  completed: boolean; // True when timer reached 0 naturally
 }
 
 export interface CustomGradient {

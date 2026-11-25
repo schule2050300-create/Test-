@@ -42,6 +42,8 @@ import { useInactivityScreensaver } from './hooks/useInactivityScreensaver';
 import { WeatherModal } from './components/WeatherModal';
 import { useWeather } from './hooks/useWeather';
 import { DEFAULT_WEATHER_SETTINGS } from './utils/presets';
+import { usePomodoro } from './hooks/usePomodoro';
+import { PomodoroFloatingWidget } from './components/PomodoroFloatingWidget';
 
 export default function App() {
   const [settings, setSettings] = useState<ClockSettings>(() => loadSettings());
@@ -94,6 +96,15 @@ export default function App() {
   // Weather Forecast & Location Hook
   const weather = useWeather({
     settings,
+    onShowFeedback: handleShowFeedback,
+  });
+
+  // Pomodoro Focus Timer integrated with Ambient Sound system & Zen Mode
+  const pomodoro = usePomodoro({
+    settings,
+    onUpdateSettings: setSettings,
+    isZenMode,
+    onSetZenMode: setIsZenMode,
     onShowFeedback: handleShowFeedback,
   });
 
@@ -655,7 +666,26 @@ export default function App() {
         onActivateScreensaver={() => setIsScreensaverActive(true)}
         onOpenWeather={() => setIsWeatherOpen(true)}
         currentTemperature={weather.weatherData?.current.temperature}
+        isPomodoroRunning={pomodoro.isRunning}
+        pomodoroTimeLeft={`${Math.floor(pomodoro.timeLeft / 60)
+          .toString()
+          .padStart(2, '0')}:${(pomodoro.timeLeft % 60).toString().padStart(2, '0')}`}
       />
+
+      {/* Floating Pomodoro + Ambient Sound Status Pill at Top Center */}
+      {!isScreensaverActive && !isClockColorPickerOpen && (
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-30 pointer-events-none">
+          <PomodoroFloatingWidget
+            pomodoro={pomodoro}
+            settings={settings}
+            isZenMode={isZenMode}
+            onOpenPomodoroSettings={() => {
+              setSettingsDrawerTab('audio');
+              setIsSettingsOpen(true);
+            }}
+          />
+        </div>
+      )}
 
       {/* Subtle Mobile Battery Indicator (Appears when not in fullscreen mode) */}
       <MobileBatteryIndicator
@@ -765,6 +795,7 @@ export default function App() {
         }}
         onOpenWeatherModal={() => setIsWeatherOpen(true)}
         weatherData={weather.weatherData}
+        pomodoro={pomodoro}
       />
 
       {/* Weather Forecast & Radar Details Modal */}

@@ -37,6 +37,8 @@ interface QuickControlsProps {
   onOpenAudioTab?: () => void;
   isAmbientPlaying?: boolean;
   activeAmbientTitle?: string;
+  isPomodoroRunning?: boolean;
+  pomodoroTimeLeft?: string;
   onActivateScreensaver?: () => void;
 }
 
@@ -61,6 +63,8 @@ export const QuickControls: React.FC<QuickControlsProps> = ({
   onOpenAudioTab,
   isAmbientPlaying = false,
   activeAmbientTitle,
+  isPomodoroRunning = false,
+  pomodoroTimeLeft,
   onActivateScreensaver,
 }) => {
   // Hidden by default: only display when user hovers over the bottom trigger area
@@ -279,35 +283,41 @@ export const QuickControls: React.FC<QuickControlsProps> = ({
             </button>
           )}
 
-          {/* Audio Soundscapes Button */}
+          {/* Audio Soundscapes & Focus Timer Button */}
           {onOpenAudioTab && (
             <button
               id="open-audio-tab-btn"
               type="button"
               onClick={onOpenAudioTab}
               title={
-                isAmbientPlaying
+                isPomodoroRunning && pomodoroTimeLeft
+                  ? `Fokus-Timer aktiv (${pomodoroTimeLeft})${activeAmbientTitle ? ` • ${activeAmbientTitle}` : ''}. Klicken zum Einstellen.`
+                  : isAmbientPlaying
                   ? `Atmosphärisches Audio aktiv: ${activeAmbientTitle || 'Klang aktiv'}. Klicken zum Einstellen.`
-                  : 'Beruhigende Hintergrundgeräusche & Audio-Einstellungen'
+                  : 'Beruhigende Hintergrundgeräusche & Fokus-Timer'
               }
-              aria-label="Audio-Einstellungen & Hintergrundgeräusche"
+              aria-label="Audio-Einstellungen, Hintergrundgeräusche & Fokus-Timer"
               className={`shrink-0 whitespace-nowrap group relative flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border transition-all duration-200 ease-out cursor-pointer ${
-                isAmbientPlaying
+                isAmbientPlaying || isPomodoroRunning
                   ? 'text-cyan-200 bg-cyan-500/20 border-cyan-400/40 shadow-[0_0_14px_rgba(34,211,238,0.3)]'
                   : 'text-slate-300 hover:text-white border-transparent hover:border-cyan-400/30 hover:bg-white/[0.16] hover:shadow-[0_6px_20px_rgba(0,0,0,0.4),0_0_14px_rgba(34,211,238,0.18)] hover:-translate-y-0.5 hover:scale-[1.03] active:translate-y-0 active:scale-95'
               }`}
             >
               <Volume2
                 className={`w-3.5 h-3.5 transition-all duration-200 shrink-0 ${
-                  isAmbientPlaying
+                  isAmbientPlaying || isPomodoroRunning
                     ? 'text-cyan-300 animate-pulse'
                     : 'text-cyan-400 group-hover:scale-115'
                 }`}
               />
               <span className="hidden sm:inline whitespace-nowrap">
-                {isAmbientPlaying ? 'Audio aktiv' : 'Audio'}
+                {isPomodoroRunning && pomodoroTimeLeft
+                  ? pomodoroTimeLeft
+                  : isAmbientPlaying
+                  ? 'Audio aktiv'
+                  : 'Audio'}
               </span>
-              {isAmbientPlaying && (
+              {(isAmbientPlaying || isPomodoroRunning) && (
                 <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping shrink-0" />
               )}
             </button>

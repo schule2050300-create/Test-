@@ -339,6 +339,26 @@ export function loadSettings(): ClockSettings {
               typeof parsed.pomodoro.soundVolume === 'number'
                 ? Math.max(0, Math.min(1, parsed.pomodoro.soundVolume))
                 : DEFAULT_SETTINGS.pomodoro.soundVolume,
+            syncAmbientWithTimer:
+              typeof parsed.pomodoro.syncAmbientWithTimer === 'boolean'
+                ? parsed.pomodoro.syncAmbientWithTimer
+                : DEFAULT_SETTINGS.pomodoro.syncAmbientWithTimer,
+            focusAmbientSound:
+              ['none', 'rain', 'forest', 'white_noise', 'pink_noise', 'waves', 'fireplace'].includes(
+                parsed.pomodoro.focusAmbientSound
+              )
+                ? parsed.pomodoro.focusAmbientSound
+                : DEFAULT_SETTINGS.pomodoro.focusAmbientSound,
+            breakAmbientBehavior:
+              ['pause', 'continue', 'switch'].includes(parsed.pomodoro.breakAmbientBehavior)
+                ? parsed.pomodoro.breakAmbientBehavior
+                : DEFAULT_SETTINGS.pomodoro.breakAmbientBehavior,
+            breakAmbientSound:
+              ['none', 'rain', 'forest', 'white_noise', 'pink_noise', 'waves', 'fireplace'].includes(
+                parsed.pomodoro.breakAmbientSound
+              )
+                ? parsed.pomodoro.breakAmbientSound
+                : DEFAULT_SETTINGS.pomodoro.breakAmbientSound,
           }
         : DEFAULT_SETTINGS.pomodoro,
       ambientSound: parsed.ambientSound && typeof parsed.ambientSound === 'object'

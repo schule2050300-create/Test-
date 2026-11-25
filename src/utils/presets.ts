@@ -61,14 +61,18 @@ export const DEFAULT_POMODORO_CONFIG: PomodoroConfig = {
   shortBreakDuration: 5,
   longBreakDuration: 15,
   longBreakInterval: 4,
-  autoStartBreaks: false,
+  autoStartBreaks: true,
   autoStartWork: false,
   autoZenModeDuringWork: false,
   exitZenModeOnBreak: false,
-  silenceInZenMode: false,
-  soundAlert: 'none',
-  soundVolume: 0,
-  showWidgetOnClock: false,
+  silenceInZenMode: true,
+  soundAlert: 'chime',
+  soundVolume: 0.65,
+  showWidgetOnClock: true,
+  syncAmbientWithTimer: true,
+  focusAmbientSound: 'rain',
+  breakAmbientBehavior: 'pause',
+  breakAmbientSound: 'waves',
 };
 
 export const DEFAULT_SETTINGS: ClockSettings = {

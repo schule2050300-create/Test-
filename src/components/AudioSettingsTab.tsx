@@ -13,15 +13,22 @@ import {
   Info,
   Sliders,
   Check,
+  Timer,
 } from 'lucide-react';
 import { AmbientSoundType, ClockSettings } from '../types';
 import { triggerHaptic } from '../utils/audio';
+import { PomodoroController } from '../hooks/usePomodoro';
+import { AudioFocusTimerCard } from './AudioFocusTimerCard';
+import { FocusSessionHistoryCard } from './FocusSessionHistoryCard';
+import { SoundscapeMoodsCard } from './SoundscapeMoodsCard';
 
 interface AudioSettingsTabProps {
   settings: ClockSettings;
   onUpdateSettings: React.Dispatch<React.SetStateAction<ClockSettings>>;
   showFeedback: (msg: string) => void;
   onTogglePlayAmbient: (type: AmbientSoundType) => void;
+  pomodoro?: PomodoroController;
+  isZenMode?: boolean;
 }
 
 interface AmbientSoundCardOption {
@@ -103,6 +110,8 @@ export const AudioSettingsTab: React.FC<AudioSettingsTabProps> = ({
   onUpdateSettings,
   showFeedback,
   onTogglePlayAmbient,
+  pomodoro,
+  isZenMode = false,
 }) => {
   const ambient = settings.ambientSound || {
     activeSound: 'none',
@@ -113,6 +122,13 @@ export const AudioSettingsTab: React.FC<AudioSettingsTabProps> = ({
 
   const isPlaying = ambient.isPlaying && ambient.activeSound !== 'none';
   const currentSound = ambient.activeSound;
+  const focusDuration = settings.pomodoro?.workDuration ?? 25;
+
+  const formatTimerShort = (sec: number) => {
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  };
 
   const handleSelectSound = (soundId: AmbientSoundType) => {
     if (settings.vibrationEnabled) triggerHaptic(12);
@@ -190,6 +206,12 @@ export const AudioSettingsTab: React.FC<AudioSettingsTabProps> = ({
                   <span className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-mono font-semibold border border-emerald-500/30">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
                     LIVE AKTIV
+                  </span>
+                )}
+                {pomodoro?.isRunning && (
+                  <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 text-[10px] font-mono font-semibold border border-rose-500/30">
+                    <Timer className="w-3 h-3" />
+                    {formatTimerShort(pomodoro.timeLeft)}
                   </span>
                 )}
               </div>
@@ -270,6 +292,31 @@ export const AudioSettingsTab: React.FC<AudioSettingsTabProps> = ({
         </div>
       </div>
 
+      {/* Soundscape Moods (Paired Audio + Visual Particle Presets) */}
+      <SoundscapeMoodsCard
+        settings={settings}
+        onUpdateSettings={onUpdateSettings}
+        showFeedback={showFeedback}
+      />
+
+      {/* Pomodoro Focus Timer & Scheduled Sound Sessions */}
+      {pomodoro && (
+        <>
+          <AudioFocusTimerCard
+            settings={settings}
+            onUpdateSettings={onUpdateSettings}
+            pomodoro={pomodoro}
+            isZenMode={isZenMode}
+            showFeedback={showFeedback}
+          />
+          <FocusSessionHistoryCard
+            settings={settings}
+            pomodoro={pomodoro}
+            showFeedback={showFeedback}
+          />
+        </>
+      )}
+
       {/* Soundscape Selection Cards */}
       <div className="space-y-2.5">
         <div className="flex items-center justify-between px-1">
@@ -336,17 +383,34 @@ export const AudioSettingsTab: React.FC<AudioSettingsTabProps> = ({
                   </p>
                 </div>
 
-                {isThisPlaying && (
-                  <div className="mt-3 pt-2.5 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-emerald-400 font-medium">
-                    <span className="flex items-center gap-1.5">
+                <div className="mt-3 pt-2.5 border-t border-slate-800/80 flex items-center justify-between gap-2">
+                  {isThisPlaying ? (
+                    <span className="flex items-center gap-1.5 text-[11px] text-emerald-400 font-medium">
                       <Check className="w-3.5 h-3.5" />
                       Wird abgespielt
                     </span>
-                    <span className="text-[10px] text-slate-500 font-mono">
-                      Klicken zum Pausieren
+                  ) : (
+                    <span className="text-[10px] text-slate-500">
+                      Klicken zum Anhören
                     </span>
-                  </div>
-                )}
+                  )}
+
+                  {pomodoro && (
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (settings.vibrationEnabled) triggerHaptic(15);
+                        pomodoro.scheduleAndStartSession(sound.id, focusDuration, sound.title);
+                      }}
+                      title={`${sound.title} für ${focusDuration} Minuten als Fokus-Session starten`}
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-800/90 hover:bg-blue-600/30 text-slate-300 hover:text-white border border-slate-700/70 hover:border-blue-400/50 text-[11px] font-semibold transition-all cursor-pointer active:scale-95"
+                    >
+                      <Timer className="w-3 h-3 text-blue-400" />
+                      <span>{focusDuration}m Fokus</span>
+                    </button>
+                  )}
+                </div>
               </div>
             );
           })}

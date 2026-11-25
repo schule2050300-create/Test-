@@ -387,6 +387,35 @@ export function loadSettings(): ClockSettings {
                 : false,
           }
         : DEFAULT_SETTINGS.ambientSound,
+      guidedBreathing:
+        parsed.guidedBreathing && typeof parsed.guidedBreathing === 'object'
+          ? {
+              enabled:
+                typeof parsed.guidedBreathing.enabled === 'boolean'
+                  ? parsed.guidedBreathing.enabled
+                  : true,
+              technique:
+                parsed.guidedBreathing.technique === 'box' ||
+                parsed.guidedBreathing.technique === 'relax' ||
+                parsed.guidedBreathing.technique === 'coherent' ||
+                parsed.guidedBreathing.technique === 'calm'
+                  ? parsed.guidedBreathing.technique
+                  : 'box',
+              showPhaseCue:
+                typeof parsed.guidedBreathing.showPhaseCue === 'boolean'
+                  ? parsed.guidedBreathing.showPhaseCue
+                  : true,
+              particleColor:
+                typeof parsed.guidedBreathing.particleColor === 'string' &&
+                parsed.guidedBreathing.particleColor.trim()
+                  ? parsed.guidedBreathing.particleColor.trim()
+                  : undefined,
+              intensity:
+                typeof parsed.guidedBreathing.intensity === 'number'
+                  ? Math.max(30, Math.min(100, Math.round(parsed.guidedBreathing.intensity)))
+                  : 75,
+            }
+          : DEFAULT_SETTINGS.guidedBreathing,
       screensaver: parsed.screensaver
         ? {
             enabled:

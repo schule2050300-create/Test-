@@ -151,6 +151,16 @@ export interface FocusSessionRecord {
   completed: boolean; // True when timer reached 0 naturally
 }
 
+export type BreathingTechniqueId = 'box' | 'relax' | 'coherent' | 'calm';
+
+export interface GuidedBreathingConfig {
+  enabled: boolean; // Synchronized with Zen Mode toggle
+  technique: BreathingTechniqueId;
+  showPhaseCue: boolean; // Display Einatmen / Halten / Ausatmen text cue
+  particleColor?: string; // Custom hex color or undefined for theme accentColor
+  intensity: number; // 30 to 100 %
+}
+
 export interface CustomGradient {
   color1: string;
   color2: string;
@@ -349,6 +359,9 @@ export interface ClockSettings {
 
   // === WETTER-WIDGET & STANDORT (OPEN-METEO) ===
   weather: WeatherSettings;
+
+  // === GUIDED BREATHING OVERLAY (SYNCHRONISIERT MIT ZEN-MODUS) ===
+  guidedBreathing?: GuidedBreathingConfig;
 }
 
 export type WeatherUnit = 'celsius' | 'fahrenheit';

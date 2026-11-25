@@ -41,9 +41,10 @@ import { OledScreensaver } from './components/OledScreensaver';
 import { useInactivityScreensaver } from './hooks/useInactivityScreensaver';
 import { WeatherModal } from './components/WeatherModal';
 import { useWeather } from './hooks/useWeather';
-import { DEFAULT_WEATHER_SETTINGS } from './utils/presets';
+import { DEFAULT_WEATHER_SETTINGS, DEFAULT_GUIDED_BREATHING_CONFIG } from './utils/presets';
 import { usePomodoro } from './hooks/usePomodoro';
 import { PomodoroFloatingWidget } from './components/PomodoroFloatingWidget';
+import { GuidedBreathingOverlay } from './components/GuidedBreathingOverlay';
 
 export default function App() {
   const [settings, setSettings] = useState<ClockSettings>(() => loadSettings());
@@ -617,6 +618,34 @@ export default function App() {
         color={settings.particleColor}
         speed={settings.particleSpeed}
         ecoMode={settings.ecoMode}
+      />
+
+      {/* Guided Breathing Particle Overlay (Synchronized with Zen Mode) */}
+      <GuidedBreathingOverlay
+        isZenMode={isZenMode}
+        isScreensaverActive={isScreensaverActive}
+        config={settings.guidedBreathing}
+        accentColor={settings.accentColor}
+        ecoMode={settings.ecoMode}
+        onChangeTechnique={(technique) => {
+          setSettings((prev) => ({
+            ...prev,
+            guidedBreathing: {
+              ...(prev.guidedBreathing || DEFAULT_GUIDED_BREATHING_CONFIG),
+              technique,
+            },
+          }));
+        }}
+        onDisableBreathing={() => {
+          setSettings((prev) => ({
+            ...prev,
+            guidedBreathing: {
+              ...(prev.guidedBreathing || DEFAULT_GUIDED_BREATHING_CONFIG),
+              enabled: false,
+            },
+          }));
+          handleShowFeedback('Guided Breathing ausgeblendet (reaktivierbar unter Uhr → Zen)');
+        }}
       />
 
       {/* Quick Access Material 3 Controls at Bottom */}

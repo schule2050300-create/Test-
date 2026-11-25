@@ -25,6 +25,7 @@ import { DigitTransitionControl } from './DigitTransitionControl';
 import { GlowEffectControl } from './GlowEffectControl';
 import { EntranceAnimationControl } from './EntranceAnimationControl';
 import { ZenScheduleCard } from './ZenScheduleCard';
+import { GuidedBreathingSettingsCard } from './GuidedBreathingSettingsCard';
 import { DailyQuoteSettingsCard } from './DailyQuoteSettingsCard';
 import { AudioSettingsTab } from './AudioSettingsTab';
 import { PerformanceInfoOverlay } from './PerformanceInfoOverlay';
@@ -413,6 +414,7 @@ export const MaterialSettingsDrawer: React.FC<MaterialSettingsDrawerProps> = ({
       { tab: 'uhr' as SettingsTab, title: 'Datumsdesign & Format', desc: 'Format (TT.MM.JJJJ, 2. Oktober etc.), Optik, Farbe & Schriftgröße' },
       { tab: 'uhr' as SettingsTab, title: 'Wochentag anzeigen', desc: 'Wochentag im Datum einblenden' },
       { tab: 'uhr' as SettingsTab, title: 'Doppelpunkt-Pulsieren & Ticken (:)', desc: 'Subtile Animation und Intensität des Doppelpunkts im Sekundentakt (Pulsieren, Glühen, Sprung, Blinken)' },
+      { tab: 'uhr' as SettingsTab, title: 'Guided Breathing (Atemübung im Zen-Modus)', desc: 'Synchronisierte Partikel-Atemübung mit Box Breathing, 4-7-8 und visuellem Expand/Contract-Ring' },
       { tab: 'uhr' as SettingsTab, title: 'Rahmenkarte (Container)', desc: 'Gläserner Oberflächen-Hintergrund' },
       { tab: 'uhr' as SettingsTab, title: 'Glas-Unschärfe (Backdrop Blur)', desc: 'Intensität des Unschärfe-Filters (0px bis 40px) für Uhrenelemente' },
       { tab: 'audio' as SettingsTab, title: 'Soundscape Moods (Stimmungen & Partikel-Presets)', desc: 'Vorkonfigurierte Kombinationen aus Hintergrundklang & Partikeleffekt (z. B. Stormy = Regen + dunkler Regen, Calm = Wald + langsame Sterne)' },
@@ -1863,6 +1865,15 @@ export const MaterialSettingsDrawer: React.FC<MaterialSettingsDrawerProps> = ({
                   isCurrentlyZen={isZenMode}
                   showFeedback={showFeedback}
                   vibrationEnabled={settings.vibrationEnabled}
+                />
+
+                {/* Guided Breathing Overlay Einstellungen (Synchronisiert mit Zen-Modus) */}
+                <GuidedBreathingSettingsCard
+                  settings={settings}
+                  onUpdateSettings={onUpdateSettings}
+                  isZenMode={isZenMode}
+                  onToggleZenMode={onToggleZenMode}
+                  showFeedback={showFeedback}
                 />
 
                 {/* Display & Layout Options */}

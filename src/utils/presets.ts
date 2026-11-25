@@ -7,7 +7,15 @@ import {
   LivelySettings,
   ScreensaverConfig,
   WeatherSettings,
+  GuidedBreathingConfig,
 } from '../types';
+
+export const DEFAULT_GUIDED_BREATHING_CONFIG: GuidedBreathingConfig = {
+  enabled: true,
+  technique: 'box',
+  showPhaseCue: true,
+  intensity: 75,
+};
 
 export const DEFAULT_WEATHER_SETTINGS: WeatherSettings = {
   enabled: true,
@@ -210,6 +218,9 @@ export const DEFAULT_SETTINGS: ClockSettings = {
 
   // WETTER-WIDGET & STANDORT (OPEN-METEO)
   weather: DEFAULT_WEATHER_SETTINGS,
+
+  // GUIDED BREATHING OVERLAY (ZEN-MODUS)
+  guidedBreathing: DEFAULT_GUIDED_BREATHING_CONFIG,
 };
 
 export const GRADIENT_PRESETS: GradientPreset[] = [
